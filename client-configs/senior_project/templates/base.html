@@ -69,6 +69,11 @@
         padding-left: 30px;
         text-align: center;
       }
+
+      .para-modal {
+        padding-left: 20px; padding-right: 20px; padding-top: 15px;
+        font-size: 120%;
+      }
     </style>
   </head>
 
@@ -98,7 +103,10 @@
             </li>
             {% if current_user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="/download">Download</a>
+              <a class="nav-link" id="gen-keys" href="#">Generate Keys</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="download" href="#">Download</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/setup">How to Use</a>
@@ -123,10 +131,66 @@
 
     <div style="width: 90%; margin: auto; margin-top: 0; background-color: white; border: 3px solid; border-bottom: 3px solid-black; border-left: 3px solid-black; border-top: 0px; border-right: 0px; border-collapse: collapse; padding-left: 30px; padding-right: 30px; padding-bottom: 80px; margin-bottom: 20px;">
 
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <h1 style="color: green;">{{ message }}</h1>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+
     {% block content %}{% endblock %}
 
-  
+    <div id="gen-keys-modal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-dark text-light">
+            <h5 class="modal-title">Generate {{ current_user.username }}'s Keys</h5>
+          </div>
+          <p class="para-modal">Generate Private key and Certificate Request to be signed by a Certificate Authority. Your OpenVPN file will then be ready to download.</p>
+          <div class="modal-footer">
+            <button type="button" onclick="window.location.href='{{ url_for( 'createVPN' ) }}';" class="btn btn-primary" id="gen-keys-confirm">Generate Keys</button>
+            <button id="btnNo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="download-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-light">
+          <h5 class="modal-title">Download File</h5>
+        </div>
+        <p class="para-modal">Download your .ovpn file and head to <a href="/setup">How to Use</a> and follow the steps to configure your file.</p>
+        <div class="modal-footer">
+          <button type="button" onclick="window.location.href='{{ url_for( 'downloadFile' ) }}';" class="btn btn-success" id="download-confirm">Download</button>
+          <button id="btnNo" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     </div>
+
+    <script>
+      $(document).ready(function() 
+                {
+                  $("#gen-keys").click(function() 
+                  {
+                    $("#gen-keys-modal").modal("show");
+                  });
+
+                  $("#download").click(function()
+                  {
+                    $("#download-modal").modal("show");
+                  });
+
+                  $("#download-confirm").click(function()
+                  {
+                    $("#download-modal").modal("hide");
+                  });
+                });
+    </script>
   </body>
 </html>

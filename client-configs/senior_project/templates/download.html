@@ -5,37 +5,6 @@
       {% if messages %}
         {% for message in messages %}
           <h1 style="color: green;">{{ message }}</h1>
-          <script>
-            $(document).ready(function() 
-            {
-              /*function buttonView() 
-              {
-                if($("#gen-keys-confirm").data("clicked"))
-                {
-                  $("#gen-keys").attr("disabled", true);
-                  $("#download").attr("disabled", false);
-                }
-                else
-                {
-                  $("#gen-keys").attr("disabled", false)
-                  $("#download").attr("disabled", true);
-                }
-              }*/
-          
-              $("#gen-keys").on("click", function() 
-              {
-                $("#gen-keys-modal").modal("show");
-              });
-          
-              $("#gen-keys-confirm").on("click", function()
-              {
-                $("gen-keys").hide();
-                $("#download").show();
-              });
-          
-              //buttonView();
-            });
-          </script>
         {% endfor %}
       {% endif %}
 {% endwith %}
@@ -44,7 +13,7 @@
 <form method="POST">
    <div class="button-center">
       <!--<button type="button" onclick="window.location.href='{{ url_for( 'createVPN' ) }}';" class="btn btn-primary" id="gen-keys">Generate Keys</button>-->
-      <button type="button" class="btn btn-primary divider" id="gen-keys">Generate Keys</button>
+      <!--<button type="button" class="btn btn-primary divider" id="gen-keys">Generate Keys</button>-->
       <button type="button" onclick="window.location.href='{{ url_for( 'downloadFile' ) }}';" class="btn btn-success divider" id="download" >Download</button>
    </div>
 </form>
@@ -67,38 +36,6 @@
 <div style="text-align: center;">
    <p>After file download is complete, please go to <a href="/setup">How to Use</a> page to follow configuration guide of .ovpn file.</p>
 </div>
-
-<script>
-  $(document).ready(function() 
-            {
-              /*function buttonView() 
-              {
-                if($("#gen-keys-confirm").data("clicked"))
-                {
-                  $("#gen-keys").attr("disabled", true);
-                  $("#download").attr("disabled", false);
-                }
-                else
-                {
-                  $("#gen-keys").attr("disabled", false)
-                  $("#download").attr("disabled", true);
-                }
-              }*/
-              $("#download").hide();
-              $("#gen-keys").on("click", function() 
-              {
-                $("#gen-keys-modal").modal("show");
-              });
-          
-              /*$("#gen-keys-confirm").on("click", function()
-              {
-                //$("gen-keys").attr("disabled", true);
-                $("#download").show();
-              });*/
-          
-              //buttonView();
-            });
-</script>
 
 <!--set true value for jinja message to hide button-->
 

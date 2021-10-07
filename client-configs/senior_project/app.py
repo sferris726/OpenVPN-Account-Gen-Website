@@ -134,16 +134,17 @@ def createVPN():
     vpnFileGen()
     flash(current_user.username + "'s Public key and Private key have been generated. OpenVPN file ready for download.")
     #messages = "Hello world"
-    return redirect(url_for('download'))
+    return redirect(url_for('index'))
 
 #Let clients download .ovpn file
 @app.route('/downloadFile', methods = ['POST', 'GET'])
 def downloadFile():
-    if request.method == 'GET':
+    try:
         path = "/home/server/client-configs/files/" + current_user.username + ".ovpn"
-        return send_file(path, as_attachment=True)
-    else:
-        flash('Download failed.')
+        if request.method == "GET":
+            return send_file(path, as_attachment=True)
+    except:
+        flash('Download not available. Please Generate keys first.')
         return redirect(url_for('index'))
 
 #Page that explains how to configure .ovpn on client side
@@ -155,3 +156,4 @@ def setup():
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
+    #app.run(host="10.110.207.139", port=80, debug=True)
