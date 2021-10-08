@@ -1,5 +1,5 @@
 from sys import path
-from flask import Flask, render_template, redirect, url_for, request, abort, flash, send_file, session
+from flask import Flask, render_template, redirect, url_for, request, abort, flash, send_file, session, jsonify
 from werkzeug.utils import send_from_directory
 from wtforms import StringField, SubmitField, PasswordField, validators
 from flask_sqlalchemy import SQLAlchemy
@@ -38,14 +38,19 @@ def load_user(user_id):
 class RegisterForm(FlaskForm):
     username = StringField('Username:', validators=[InputRequired(), Length(max=20)])
     email = StringField('Email Address:', validators=[InputRequired(), Length(max=40)])
-    password = PasswordField('Password:', validators=[InputRequired(), Length(min=12, max=30)])
-    confirm_password = PasswordField("Password Confirmation:", validators=[InputRequired(), EqualTo('password', message='Password does not match.')])
+    password = PasswordField('Password:', validators=[InputRequired()])
+    confirm_password = PasswordField("Password Confirmation:", validators=[InputRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
 class LoginForm(FlaskForm):
     email = StringField('Email Address:', validators=[InputRequired(), Length(max=40)])
-    password = PasswordField('Password:', validators=[InputRequired(), Length(min=12, max=30)])
+    password = PasswordField('Password:', validators=[InputRequired()])
     submit = SubmitField('Login')
+
+class SettingsForm(FlaskForm):
+    password = PasswordField('Password:', validators=[InputRequired()])
+    confirm_password = PasswordField("Confirm Password:", validators=[InputRequired(), EqualTo('password')])
+    submit = SubmitField('Save Changes')
 
 #Generate Client csr and key files. Get csr file signed by CA to get client.crt
 def clientCertGen():
@@ -87,6 +92,12 @@ def register():
         elif exist_email:
             flash('This Email is already in use.')
             return redirect(url_for('register'))
+        elif form.password.data != form.confirm_password.data:
+            flash("Password confirmation does not match. Please try again.")
+            return redirect(url_for('register'))
+        elif len(password) < 8 or len(password) > 20:
+            flash("Password should be between 8 and 20 characters.")
+            return redirect(url_for('register'))
         else:
             hashed_password = generate_password_hash(password, method='sha256')
             new_user = User(username=username, email=email, password=hashed_password)
@@ -120,12 +131,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-#Clients download link that contains client.ovpn file
-@app.route('/download')
-@login_required
-def download():
-    return render_template('download.html')
-
 #Function to create .ovpn file with shell scripts
 @app.route('/createVPN', methods = ['POST', 'GET'])
 @login_required
@@ -152,6 +157,36 @@ def downloadFile():
 @login_required
 def setup():
     return render_template('setup.html')
+
+#User account settings
+@app.route('/account', methods = ['POST', 'GET'])
+@login_required
+def account():
+    form = SettingsForm()
+    if form.validate_on_submit():
+        password = form.password.data
+        hashed_password = generate_password_hash(password, method='sha256')
+        if len(password) > 8 and len(password) < 20:
+            User.query.filter(User.id==current_user.id).update({'password':hashed_password},synchronize_session=False)
+            #db.session.add(update_user)
+            db.session.commit()
+            flash("Password successfully changed.")
+            return redirect(url_for('index'))
+        elif len(form.password.data) < 8 or len(form.password.data) > 20:
+            flash("Password must be between 8 and 20 characters.")
+            return redirect(url_for('account'))
+        elif form.password.data != form.confirm_password.data:
+            flash("Password confirmation does not match. Please try again.")
+            return redirect(url_for('account'))
+    return render_template("account.html", form=form)
+
+#Delete user account
+@app.route("/deleteAccount", methods = ["POST", "GET"])
+@login_required
+def deleteAccount():
+    User.query.filter_by(id=current_user.id).delete()
+    db.session.commit()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     db.create_all()

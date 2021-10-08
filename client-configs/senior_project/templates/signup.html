@@ -16,10 +16,6 @@
         width: 100%;
       }
 
-      .jumbotron > div{
-        margin: 0;
-      }
-
       .navbar-nav > li{
         padding-left:15px;
         padding-right:15px;
@@ -48,6 +44,9 @@
             <li class="nav-item active">
               <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Contact <span class="sr-only">(current)</span></a>
+            </li>
             {% if current_user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="/download">Download</a>
@@ -75,11 +74,13 @@
      
       <div style="width: 90%; margin: auto; margin-top: 0; background-color: white; border: 3px solid; border-bottom: 3px solid-black; border-left: 3px solid-black; border-top: 0px; border-right: 0px; border-collapse: collapse; padding-left: 30px; padding-bottom: 80px; margin-bottom: 20px;">
       <div style="padding-top: 60px;">
-        <div style="text-align: center;">
+        <div style="text-align: center; padding-right: 30px;">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
-            <h1 style="color: red;">{{ message }}</h1>
+          <div class="alert alert-info" role="alert">
+            {{ message }}
+          </div>
           {% endfor %}
         {% endif %}
         {% endwith %}
