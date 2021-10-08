@@ -37,57 +37,69 @@
   </head>
 
   <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <a class="navbar-brand" href="/">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Contact <span class="sr-only">(current)</span></a>
-            </li>
-            {% if current_user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="/download">Download</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/setup">How to Use</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">Welcome, {{ current_user.username }}</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            {% endif %}
-          </ul>
-        </div>
-      </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <a class="navbar-brand" href="/">Home</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Contact <span class="sr-only">(current)</span></a>
+          </li>
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" id="gen-keys" href="#">Generate Keys</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="download" href="#">Download</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/setup">How to Use</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="account" href="/account">Welcome, {{ current_user.username }}</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
      
       <div style="width: 90%; margin: auto; margin-top: 0; background-color: white; border: 3px solid; border-bottom: 3px solid-black; border-left: 3px solid-black; border-top: 0px; border-right: 0px; border-collapse: collapse; padding-left: 30px; padding-bottom: 80px; margin-bottom: 20px;">
         <div style="padding-top: 60px;">
 
-          <div style="text-align: center;">
-          {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                  {% for message in messages %}
-                    <h1 style="color: red;">{{ message }}</h1>
-                  {% endfor %}
-                {% endif %}
-          {% endwith %}
-          </div>
+          <div style="padding-top: 60px;">
+            <div style="text-align: center; padding-right: 30px;">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                {% if message == 'New account confirmed. Please Login.' %}
+                  <div class="alert alert-success" role="alert">
+                    {{ message }}
+                  </div>
+                {% else %}
+                  <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                  </div>
+                {% endif %}    
+              {% endfor %}
+            {% endif %}
+            {% endwith %}
+            </div>
           
           <!--<h2 class="header2">Login Page</h2>
           <form action="" method="POST">

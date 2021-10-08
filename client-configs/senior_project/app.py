@@ -66,6 +66,13 @@ def vpnFileGen():
     output = process.stdout.decode()
     return output
 
+#Remove files when client deletes their account
+def removeFiles():
+    command = "rm -f /home/server/client-configs/keys/" + current_user.username + ".key /home/server/client-configs/keys/" + current_user.username + ".crt; rm -f /home/server/client-configs/files/" + current_user.username + ".ovpn"
+    process = subprocess.run(command, stdout=PIPE, stderr=None, shell=True)
+    output = process.stdout.decode()
+    return output
+
 #Home page
 @app.route('/')
 def index():
@@ -121,7 +128,7 @@ def login():
                 flash('Password is invalid.')
                 return redirect(url_for('login'))
         else:
-            flash('Email Invalid.')
+            flash('Invalid Email.')
             return redirect(url_for('login'))
     return render_template('login.html', form=form)
 
@@ -137,7 +144,7 @@ def logout():
 def createVPN():
     clientCertGen()
     vpnFileGen()
-    flash(current_user.username + "'s Public key and Private key have been generated. OpenVPN file ready for download.")
+    flash(current_user.username + "'s Public key and Private key have been generated. OpenVPN file is ready to download.")
     #messages = "Hello world"
     return redirect(url_for('index'))
 
@@ -149,7 +156,7 @@ def downloadFile():
         if request.method == "GET":
             return send_file(path, as_attachment=True)
     except:
-        flash('Download not available. Please Generate keys first.')
+        flash('Download is not available. Please Generate keys first.')
         return redirect(url_for('index'))
 
 #Page that explains how to configure .ovpn on client side
@@ -184,6 +191,7 @@ def account():
 @app.route("/deleteAccount", methods = ["POST", "GET"])
 @login_required
 def deleteAccount():
+    removeFiles()
     User.query.filter_by(id=current_user.id).delete()
     db.session.commit()
     return redirect(url_for('index'))
