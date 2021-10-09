@@ -105,6 +105,9 @@ def register():
         elif len(password) < 8 or len(password) > 20:
             flash("Password should be between 8 and 20 characters.")
             return redirect(url_for('register'))
+        elif form.password.data != form.confirm_password.data:
+            flash("Password confirmation does not match. Please try again.")
+            return redirect(url_for('account'))
         else:
             hashed_password = generate_password_hash(password, method='sha256')
             new_user = User(username=username, email=email, password=hashed_password)

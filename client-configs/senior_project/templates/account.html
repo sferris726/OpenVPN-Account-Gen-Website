@@ -33,7 +33,7 @@
 
     .para-register {
       font-size: 130%;
-      padding-bottom: 15px;
+      padding-bottom: 15px; padding-left: 20px;
     }
 
     .para-modal {
@@ -113,11 +113,11 @@
             <label>Username: {{ current_user.username }}</label><br><br>
             <h3>Change account password:</h3><br>
             <label for="exampleInputEmail1">{{ form.password.label }}</label><br>
-            {{ form.password(size = 40) }}
+            {{ form.password(style='width: 75%;') }}
           </div>
           <div class="form-group para-register">
             <label for="exampleInputPassword1">{{ form.confirm_password.label }}</label><br>
-            {{ form.confirm_password(size = 40) }}
+            {{ form.confirm_password(style='width: 75%;') }}
           </div>
           <p>{{ form.submit() }}</p>
         </form>

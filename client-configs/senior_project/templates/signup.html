@@ -27,7 +27,7 @@
       
       .para-register {
         font-size: 130%;
-        padding-bottom: 15px;
+        padding-bottom: 15px; padding-left: 40px;
       }
     </style>
   </head>
@@ -123,7 +123,7 @@
           {{ form.csrf_token }}
           <div class="form-group para-register">
             <label for="username">{{ form.username.label }}</label><br>
-            {{ form.username(size = 35) }}
+            {{ form.username(style='width: 75%;') }}
           </div>
           {% if form.username.errors %}
             {% for error in form.username.errors %}
@@ -132,15 +132,15 @@
           {% endif %}
           <div class="form-group para-register">
             <label for="exampleInputEmail1">{{ form.email.label }}</label><br>
-            {{ form.email(size = 35) }}
+            {{ form.email(style='width: 75%;') }}
           </div>
           <div class="form-group para-register">
             <label for="exampleInputPassword1">{{ form.password.label }}</label><br>
-            {{ form.password(size = 35) }}
+            {{ form.password(style='width: 75%;') }}
           </div>
           <div class="form-group para-register">
             <label for="exampleInputPassword1">{{ form.confirm_password.label }}</label><br>
-            {{ form.confirm_password(size = 35) }}
+            {{ form.confirm_password(style='width: 75%;') }}
           </div>
           <p>{{ form.submit() }}</p>
         </form>
