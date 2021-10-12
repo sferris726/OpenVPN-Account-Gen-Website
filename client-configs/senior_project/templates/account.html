@@ -32,6 +32,7 @@
     }
 
     .para-register {
+      text-align: center;
       font-size: 130%;
       padding-bottom: 15px; padding-left: 20px;
     }
@@ -39,6 +40,18 @@
     .para-modal {
         padding-left: 20px; padding-right: 20px; padding-top: 15px;
         font-size: 120%;
+      }
+
+      hr.dotted {
+        border-top: 2px dotted black;
+        width: 100%;
+      }
+
+      .center {
+        display: flex;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
       }
   </style>
 </head>
@@ -90,15 +103,18 @@
     style="width: 90%; margin: auto; margin-top: 0; background-color: white; border: 3px solid; border-bottom: 3px solid-black; border-left: 3px solid-black; border-top: 0px; border-right: 0px; border-collapse: collapse; padding-left: 30px; padding-bottom: 80px; margin-bottom: 20px;">
     <div style="padding-top: 60px;">
 
-      <div style="text-align: center;">
+      <div style="padding-top: 60px;">
+        <div style="text-align: center; padding-right: 30px;">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        {% for message in messages %}
-        <h1 style="color: red;">{{ message }}</h1>
-        {% endfor %}
+          {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>    
+          {% endfor %}
         {% endif %}
         {% endwith %}
-      </div>
+        </div>
 
       <h2 class="text-light bg-dark rounded"
         style=" margin-bottom: 0px; border: 1px solid; border-bottom: solid-black; padding-right: 50px; padding-left: 40px; padding-top: 20px; padding-bottom: 20px; margin: auto; width: 55%;">
@@ -109,20 +125,30 @@
         <form action="" method="POST">
           {{ form.csrf_token }}
           <div class="form-group para-register">
-            <h3>Username:</h3><br>
-            <label>Username: {{ current_user.username }}</label><br><br>
-            <h3>Change account password:</h3><br>
-            <label for="exampleInputEmail1">{{ form.password.label }}</label><br>
-            {{ form.password(style='width: 75%;') }}
+            <h3><i>Username:</i></h3><br>
+            <label>{{ current_user.username }}</label><br>
+
+            <br><hr class="dotted"><br>
+
+            <h3><i>Change account password:</i></h3><br>
+            <label for="exampleInputEmail1">{{ form.old_password.label }}</label><br>
+            {{ form.old_password(style='width: 75%;') }}
+          </div>
+          <div class="form-group para-register">
+            <label for="exampleInputPassword1">{{ form.new_password.label }}</label><br>
+            {{ form.new_password(style='width: 75%;') }}
           </div>
           <div class="form-group para-register">
             <label for="exampleInputPassword1">{{ form.confirm_password.label }}</label><br>
             {{ form.confirm_password(style='width: 75%;') }}
           </div>
-          <p>{{ form.submit() }}</p>
+          <p class="center">{{ form.submit() }}</p>
         </form>
-        <h2>Remove account and site access:</h2><br>
-        <button id="delete-account-btn" type="button" class="btn btn-danger">Delete Account</button>
+
+        <br><hr class="dotted"><br>
+
+        <h3 style="text-align: center;"><i>Remove account and site access:</i></h3><br>
+        <button id="delete-account-btn" type="button" class="btn btn-danger center">Delete Account</button>
       </div>
     </div>
   </div>

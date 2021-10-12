@@ -1,3 +1,4 @@
+import re
 from sys import path
 from flask import Flask, render_template, redirect, url_for, request, abort, flash, send_file, session, jsonify
 from werkzeug.utils import send_from_directory
@@ -48,8 +49,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class SettingsForm(FlaskForm):
-    password = PasswordField('Password:', validators=[InputRequired()])
-    confirm_password = PasswordField("Confirm Password:", validators=[InputRequired(), EqualTo('password')])
+    old_password = PasswordField('Old Password:', validators=[InputRequired()])
+    new_password = PasswordField('New Password:', validators=[InputRequired()])
+    confirm_password = PasswordField("Confirm Password:", validators=[InputRequired(), EqualTo('new_password')])
     submit = SubmitField('Save Changes')
 
 #Generate Client csr and key files. Get csr file signed by CA to get client.crt
@@ -174,19 +176,23 @@ def setup():
 def account():
     form = SettingsForm()
     if form.validate_on_submit():
-        password = form.password.data
-        hashed_password = generate_password_hash(password, method='sha256')
-        if len(password) > 8 and len(password) < 20:
-            User.query.filter(User.id==current_user.id).update({'password':hashed_password},synchronize_session=False)
-            #db.session.add(update_user)
-            db.session.commit()
-            flash("Password successfully changed.")
-            return redirect(url_for('index'))
-        elif len(form.password.data) < 8 or len(form.password.data) > 20:
-            flash("Password must be between 8 and 20 characters.")
-            return redirect(url_for('account'))
-        elif form.password.data != form.confirm_password.data:
-            flash("Password confirmation does not match. Please try again.")
+        user = User.query.filter_by(username=current_user.username).first()
+        if check_password_hash(user.password, form.old_password.data):
+            password = form.new_password.data
+            hashed_password = generate_password_hash(password, method='sha256')
+            if len(password) > 8 and len(password) < 20:
+                User.query.filter(User.id==current_user.id).update({'password':hashed_password},synchronize_session=False)
+                db.session.commit()
+                flash("Password successfully changed.")
+                return redirect(url_for('index'))
+            elif len(form.new_password.data) < 8 or len(form.new_password.data) > 20:
+                flash("Password must be between 8 and 20 characters.")
+                return redirect(url_for('account'))
+            elif password != form.confirm_password.data:
+                flash("Password confirmation does not match. Please try again.")
+                return redirect(url_for('account'))
+        else:
+            flash("Old Password invalid.")
             return redirect(url_for('account'))
     return render_template("account.html", form=form)
 
@@ -197,6 +203,7 @@ def deleteAccount():
     removeFiles()
     User.query.filter_by(id=current_user.id).delete()
     db.session.commit()
+    flash("Account has been deleted.")
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
