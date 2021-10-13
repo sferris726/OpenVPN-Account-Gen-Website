@@ -12,8 +12,6 @@
 <h2 class="header2">Generate Keys / Download OpenVPN</h2>
 <form method="POST">
    <div class="button-center">
-      <!--<button type="button" onclick="window.location.href='{{ url_for( 'createVPN' ) }}';" class="btn btn-primary" id="gen-keys">Generate Keys</button>-->
-      <!--<button type="button" class="btn btn-primary divider" id="gen-keys">Generate Keys</button>-->
       <button type="button" onclick="window.location.href='{{ url_for( 'downloadFile' ) }}';" class="btn btn-success divider" id="download" >Download</button>
    </div>
 </form>
@@ -36,7 +34,5 @@
 <div style="text-align: center;">
    <p>After file download is complete, please go to <a href="/setup">How to Use</a> page to follow configuration guide of .ovpn file.</p>
 </div>
-
-<!--set true value for jinja message to hide button-->
 
 {% endblock %}

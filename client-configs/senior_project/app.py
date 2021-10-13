@@ -188,7 +188,7 @@ def account():
             elif len(form.new_password.data) < 8 or len(form.new_password.data) > 20:
                 flash("Password must be between 8 and 20 characters.")
                 return redirect(url_for('account'))
-            elif password != form.confirm_password.data:
+            else:
                 flash("Password confirmation does not match. Please try again.")
                 return redirect(url_for('account'))
         else:
