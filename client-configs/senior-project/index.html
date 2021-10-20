@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="header2">Welcome to OpenVPN for Linux clients.</h2>
+<img class="img-about" src="/static/pics/openvpn-about.jpg"><br>
+
+<p>Enjoy the benefits of a private network for free! With open source VPN, OpenVPN.</p>
+
+<p>Here we take all the guess work out for our clients.</p>
+
+<p>Processes Automated:</p>
+<ul>
+    <li>Generating a Certificate Request with OpenSSL</li>
+    <li>Creating a Private key with OpenSSL</li>
+    <li>Having a Certificate Authority Sign your CSR and granting you a Certificate key</li>
+    <li>Creating your .ovpn file</li>
+</ul>
+
+<p>All you need to do to access your VPN is register an account, login, click the generate keys button and then download your .ovpn file. After your file is downloaded, we have a How To Use page for an easy to follow configuration guide for your .ovpn file.</p>
+{% endblock %}
