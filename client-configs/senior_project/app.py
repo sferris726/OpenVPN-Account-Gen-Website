@@ -3,8 +3,10 @@ from sys import path
 from flask import Flask, render_template, redirect, url_for, request, abort, flash, send_file, session, jsonify
 from werkzeug.utils import send_from_directory
 from wtforms import StringField, SubmitField, PasswordField, validators
+from wtforms.fields.html5 import EmailField
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
+from flask_talisman import Talisman
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from wtforms.validators import EqualTo, InputRequired, Email, Length, ValidationError, DataRequired
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -38,7 +40,7 @@ def load_user(user_id):
 #Forms
 class RegisterForm(FlaskForm):
     username = StringField('Username:', validators=[InputRequired(), Length(max=20)])
-    email = StringField('Email Address:', validators=[InputRequired(), Length(max=40)])
+    email = EmailField('Email Address:', validators=[InputRequired(), Length(max=40)])
     password = PasswordField('Password:', validators=[InputRequired()])
     confirm_password = PasswordField("Password Confirmation:", validators=[InputRequired(), EqualTo('password')])
     submit = SubmitField('Register')
