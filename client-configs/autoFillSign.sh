@@ -2,7 +2,12 @@
 
 set timeout -1
 
-spawn /home/server/client-configs/genClientCerts.sh
+spawn su server
+expect {Password:} {send "server\n"}
+
+cd /var/www/FlaskApps/client-configs/
+
+spawn /var/www/FlaskApps/client-configs/genClientCerts.sh
 expect {Enter pass phrase for client.key:} {send "client\n"}
 expect {Verifying - Enter pass phrase for client.key:} {send "client\n"}
 expect {Enter pass phrase for client.key:} {send "client\n"}
@@ -17,8 +22,8 @@ expect -re {A challenge password [^:]*:} {send "\n"}
 expect -re {An optional company name [^:]*:} {send "\n"}
 expect eof
 
-cd /home/server/client-configs/
+cd /var/www/FlaskApps/client-configs/
 
-spawn /home/server/client-configs/CASign.sh
+spawn /var/www/FlaskApps/client-configs/CASign.sh
 expect {Enter pass phrase for ca.key:} {send "cert\n"}
 expect eof
