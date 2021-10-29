@@ -6,7 +6,6 @@ from wtforms import StringField, SubmitField, PasswordField, validators
 from wtforms.fields.html5 import EmailField
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from flask_talisman import Talisman
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 from wtforms.validators import EqualTo, InputRequired, Email, Length, ValidationError, DataRequired
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -58,21 +57,21 @@ class SettingsForm(FlaskForm):
 
 #Generate Client csr and key files. Get csr file signed by CA to get client.crt
 def clientCertGen():
-    command = "/home/server/client-configs/autoFillSign.sh; mv /home/server/client-configs/keys/client.key /home/server/client-configs/keys/" + current_user.username + ".key; mv /home/server/client-configs/keys/client.crt /home/server/client-configs/keys/"  + current_user.username + ".crt"
+    command = "/var/www/FlaskApps/client-configs/autoFillSign.sh; mv /var/www/FlaskApps/client-configs/keys/client.key /var/www/FlaskApps/client-configs/keys/" + current_user.username + ".key; mv /var/www/FlaskApps/client-configs/keys/client.crt /var/www/FlaskApps/client-configs/keys/"  + current_user.username + ".crt"
     process = subprocess.run(command, stdout=PIPE, stderr=None, shell=True)
     output = process.stdout.decode()
     return output
 
 #Generate .ovpn file with make_config
 def vpnFileGen():
-    command = "/home/server/client-configs/make_config.sh " + current_user.username + "; rm -f /home/server/client-configs/client.csr"
+    command = "/var/www/FlaskApps/client-configs/make_config.sh " + current_user.username + "; rm -f /var/www/FlaskApps/client-configs/client.csr"
     process = subprocess.run(command, stdout=PIPE, stderr=None, shell=True)
     output = process.stdout.decode()
     return output
 
 #Remove files when client deletes their account
 def removeFiles():
-    command = "rm -f /home/server/client-configs/keys/" + current_user.username + ".key /home/server/client-configs/keys/" + current_user.username + ".crt; rm -f /home/server/client-configs/files/" + current_user.username + ".ovpn"
+    command = "rm -f /var/www/FlaskApps/client-configs/keys/" + current_user.username + ".key /var/www/FlaskApps/client-configs/keys/" + current_user.username + ".crt; rm -f /var/www/FlaskApps/client-configs/files/" + current_user.username + ".ovpn"
     process = subprocess.run(command, stdout=PIPE, stderr=None, shell=True)
     output = process.stdout.decode()
     return output
@@ -211,4 +210,3 @@ def deleteAccount():
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
-    #app.run(host="10.110.207.139", port=80, debug=True)
