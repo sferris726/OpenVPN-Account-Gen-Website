@@ -158,7 +158,7 @@ def createVPN():
 @app.route('/downloadFile', methods = ['POST', 'GET'])
 def downloadFile():
     try:
-        path = "/home/server/client-configs/files/" + current_user.username + ".ovpn"
+        path = "/var/www/FlaskApps/client-configs/files/" + current_user.username + ".ovpn"
         if request.method == "GET":
             return send_file(path, as_attachment=True)
     except:
