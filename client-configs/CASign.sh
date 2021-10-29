@@ -9,6 +9,6 @@ openssl verify -purpose sslclient -CAfile ca.crt client.crt
 
 for f in client.crt
 do
-   mv -v "$f" /home/server/client-configs/keys/"${f%.crt}".crt
+   mv -v "$f" /var/www/FlaskApps/client-configs/keys/"${f%.crt}".crt
 done
 

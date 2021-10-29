@@ -2,9 +2,9 @@
 
 #First argument: Client Identifier
 
-KEY_DIR=~/client-configs/keys
-OUTPUT_DIR=~/client-configs/files
-BASE_CONFIG=~/client-configs/base.conf
+KEY_DIR=/var/www/FlaskApps/client-configs/keys
+OUTPUT_DIR=/var/www/FlaskApps/client-configs/files
+BASE_CONFIG=/var/www/FlaskApps/client-configs/base.conf
 
 cat ${BASE_CONFIG} \
 	<(echo -e '<ca>') \
