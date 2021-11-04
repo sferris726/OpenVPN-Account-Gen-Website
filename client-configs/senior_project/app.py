@@ -129,6 +129,7 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
+                flash("Hello " + current_user.username)
                 return redirect(url_for('index'))
             else:
                 flash('Password is invalid.')
@@ -142,6 +143,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash("Successfully logged out")
     return redirect(url_for('index'))
 
 #Function to create .ovpn file with shell scripts
