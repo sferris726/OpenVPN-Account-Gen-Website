@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<br><br>
+<ul class="setup-list">
+    <h2><u><i>How to configure your .ovpn file:</i></u></h2>
+    <br><li>Install OpenVPN with: <code>sudo apt install openvpn</code></li><br>
+    <img src="/static/pics/Setup/install.PNG"><br>
+    <br><li>Open your <code>/etc/resolve.conf</code> file to see if your system uses systemd-resolved</li><br>
+    <img src="/static/pics/Setup/resolve_conf.PNG"><br><br>
+    <img src="/static/pics/Setup/resolve_conf_nameserver.PNG"><br>
+    <br><li>Your system uses systemd-resolved if the IP address after <code>nameserver</code> is <code>127.0.0.53</code>. If the IP address is different, your system does not use systemd-resolved.</li><br>
+    <li>For systemd-resolved clients, you need to install the openvpn-systemd-resolved package so that systemd-resolved will use the VPN server for DNS resolution</li><br>
+    <img src="/static/pics/Setup/openvpn-systemd-resolved.PNG"><br>
+    <br><li>After installing the package, open your ovpn file in a text editor (i.e. vim / nano) and uncomment the following lines by removing the semicolons(;), to send all DNS queries over the VPN interface. Save and close the file</li><br>
+    <img src="/static/pics/Setup/script-security.PNG"><br>
+    <br><li>For clients that are <i>not</i> using systemd-resolved, list the contents of <code>/etc/openvpn</code> to see if <code>update-resolv-conf</code> is part of the output</li><br>
+    <img src="/static/pics/Setup/ls.PNG"><br><br>
+    <img src="/static/pics/Setup/update-resolv.PNG"><br>
+    <br><li>If the output contains <code>update-resolv-conf</code>, open your ovpn file in a text editor and uncomment the following lines by removing the semicolons(;), then save and close the file. Again, only needed for clients <i>not</i> using systemd-resolved</li><br>
+    <img src="/static/pics/Setup/script-security-resolv-clients.PNG"><br>
+
+    <br><hr class="rounded">
+
+    <br><h2 style="padding-left: 30px;"><u><i>Establishing a Connection:</i></u></h2>
+    <br><li>You should now be ready to connect to the VPN service by entering the below command:</li><br>
+    <img src="/static/pics/Setup/connect.PNG"><br>
+    <br><li>If you see <code>Initialization Sequence Completed</code>, congratulations, you are connected!</li><br>
+    <img src="/static/pics/Setup/initialization.PNG"><br>
+    <br><li>You can confirm that you are connected by opening a new terminal and inputing <code>ifconfig</code> to see your <code>tun0</code> interface</li><br>
+    <img src="/static/pics/Setup/ifconfig.PNG">
+</ul>
+{% endblock %}
