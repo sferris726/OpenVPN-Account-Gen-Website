@@ -41,7 +41,7 @@ class RegisterForm(FlaskForm):
     username = StringField('Username:', validators=[InputRequired(), Length(max=20)])
     email = EmailField('Email Address:', validators=[InputRequired(), Length(max=40)])
     password = PasswordField('Password:', validators=[InputRequired()])
-    confirm_password = PasswordField("Password Confirmation:", validators=[InputRequired(), validators.EqualTo('password', message = 'Password does not match')])
+    confirm_password = PasswordField("Password Confirmation:", validators=[InputRequired(), validators.EqualTo('password')])
     submit = SubmitField('Register')
 
 class LoginForm(FlaskForm):
@@ -103,9 +103,6 @@ def register():
         elif exist_email:
             flash('This Email is already in use.')
             return redirect(url_for('register'))
-        if form.password.data is not form.confirm_password.data:
-            flash("Password confirmation does not match. Please try again.")
-            return redirect(url_for('register'))
         elif len(password) < 8 or len(password) > 20:
             flash("Password should be between 8 and 20 characters.")
             return redirect(url_for('register'))
@@ -116,6 +113,9 @@ def register():
             db.session.commit()
             flash('New account confirmed. Please Login.')
             return redirect(url_for('login'))
+    else:
+        if form.confirm_password.data is not form.password.data:
+            flash("Passwords do not match.")
     return render_template('signup.html', form=form)
 
 #Let users login
@@ -127,7 +127,7 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
-                flash("Hello " + current_user.username)
+                flash("Hello, " + current_user.username)
                 return redirect(url_for('index'))
             else:
                 flash('Password is invalid.')
@@ -187,14 +187,11 @@ def account():
                 flash("Password successfully changed.")
                 return redirect(url_for('index'))
             elif len(form.new_password.data) < 8 or len(form.new_password.data) > 20:
-                flash("Password must be between 8 and 20 characters.")
-                return redirect(url_for('account'))
-            else:
-                flash("Password confirmation does not match. Please try again.")
-                return redirect(url_for('account'))
-        else:
-            flash("Old Password invalid.")
-            return redirect(url_for('account'))
+                flash("Password should be between 8 and 20 characters.")
+    else:
+        if form.confirm_password.data is not form.new_password.data:
+            flash("Old password invalid / Passwords do not match")
+        #return redirect(url_for('account'))
     return render_template("account.html", form=form)
 
 #Delete user account
