@@ -94,7 +94,6 @@ def register():
         username = form.username.data
         email = form.email.data
         password = form.password.data
-        confirm = form.confirm_password.data
         exist_user = User.query.filter_by(username=username).first()
         exist_email = User.query.filter_by(email=email).first()
         if exist_user:
@@ -188,6 +187,9 @@ def account():
                 return redirect(url_for('index'))
             elif len(form.new_password.data) < 8 or len(form.new_password.data) > 20:
                 flash("Password should be between 8 and 20 characters.")
+        else:
+            if form.confirm_password.data is not form.new_password.data:
+                flash("Old password invalid / Passwords do not match")
     else:
         if form.confirm_password.data is not form.new_password.data:
             flash("Old password invalid / Passwords do not match")
