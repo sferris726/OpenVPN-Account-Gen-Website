@@ -140,7 +140,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash("Successfully logged out")
+    flash("Successfully logged out!")
     return redirect(url_for('index'))
 
 #Function to create .ovpn file with shell scripts
