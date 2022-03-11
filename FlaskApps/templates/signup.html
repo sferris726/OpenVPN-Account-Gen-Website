@@ -10,7 +10,9 @@
     }
 
     body {
-      background-color: lightgray;
+      background-image: url("/static/pics/cyberspace.jpeg");
+      background-size: cover;
+      height: 0;
     }
 
     .container {
@@ -25,6 +27,24 @@
 
     .nav-item {
       font-size: 120% !important;
+    }
+
+    .register-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .register-card {
+      background: white;
+      width: 660px;
+      height: 650px;
+      margin: 20px;
+      border-radius: 15px;
+    }
+
+    .register-card-title {
+      padding: 15px 0 15px 15px;
+      border-radius: 15px 15px 0 0;
     }
 
     .para-register {
@@ -61,9 +81,6 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
-        </li>
         {% if current_user.is_authenticated %}
         <li class="nav-item active">
           <a class="nav-link" id="account" href="/account">Account</a>
@@ -91,32 +108,29 @@
       </ul>
     </div>
   </nav>
-
-  <div
-    style="width: 90%; margin: auto; margin-top: 0; background-color: white; border: 3px solid; border-bottom: 3px solid-black; border-left: 3px solid-black; border-top: 0px; border-right: 0px; border-collapse: collapse; padding-left: 30px; padding-bottom: 80px; margin-bottom: 20px;">
-    <div style="padding-top: 60px;">
-      <div style="text-align: center; padding-right: 30px;">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-danger" role="alert">
-          {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+  
+  <div style="padding-top: 60px;">
+    <div style="text-align: center; padding-right: 30px;">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
       </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
 
-      <h2 class="text-light bg-dark rounded"
-        style=" margin-bottom: 0px; border: 1px solid; border-bottom: solid-black; padding-right: 50px; padding-left: 40px; padding-top: 20px; padding-bottom: 20px; margin: auto; width: 55%;">
-        Create An Account</h2>
-
-      <div class="rounded-bottom"
-        style="margin-top: 0px; padding-right: 50px; padding-left: 20px; padding-top: 30px; padding-bottom: 30px; border: 1px solid; border-top: 0px; margin: auto; width: 54.8%;">
+    <section class="register-container">
+      <div class="register-card">
+        <div>
+          <h2 class="text-light bg-dark register-card-title">Create an Account</h2>
+        </div>
         <form action="" method="POST">
           {{ form.csrf_token }}
           <div class="form-group para-register">
-            <label for="username">{{ form.username.label }}</label><br>
+            <br><label for="username">{{ form.username.label }}</label><br>
             {{ form.username(style='width: 75%;') }}
           </div>
           {% if form.username.errors %}
@@ -139,13 +153,13 @@
           <p style="padding-left: 40px;">{{ form.submit() }}</p>
         </form>
       </div>
-    </div>
+    </section>
 
-    <footer>
+    <footer style="color: white;">
       <img src="/static/pics/key2.png" style="height: 7%;"><br>
       <i>
         Copyright &copy; OpenVPN Client Config Automated<br>
-        <a href="#">FerrisValiton@gmail.com</a>
+        <a href="#">FerrisVPN@gmail.com</a>
       </i><br>
     </footer>
   </div>

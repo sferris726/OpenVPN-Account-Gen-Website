@@ -1,21 +1,36 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 style="font-size: 250%; text-align: center;"><i><strong>Welcome to OpenVPN for Linux Clients</strong></i></h2><br>
-<img class="img-about" style="height: 50%; width: 50%;" src="/static/pics/vpn-icon.jpeg"><br>
+<h2 class="font-type" style="font-size: 250%; text-align: center;"><i><strong>Welcome to OpenVPN for Linux Clients</strong></i></h2> <br><br>
 
-<br><p class="para-index" style="text-align: center; font-size: 140%;"><b>Enjoy the benefits of a private network for free! With open source VPN, OpenVPN.</b></p>
+<section class="card-container">
+    <div class="card">
+        <div class="card-image automated-img"></div>
+        <h2 class="card-p">Processes Automated</h2>
+        <ul style="font-size: 125%;">
+            <li>Generating a Certificate Request with OpenSSL using shell scripts</li><br>
+            <li>Creating a Private key with OpenSSL using shell scripts</li><br>
+            <li>Having a Certificate Authority Sign your CSR and granting you a Certificate key</li><br>
+            <li>Creating your .ovpn file</li>
+        </ul>
+    </div>
 
-<p class="para-index" style="text-align: center; font-size: 140%;"><b>Here we take all the guess work out for our clients.</b></p><br><br>
+    <div class="card">
+        <div class="card-image our-goal"></div>
+        <h2 class="card-p">Our Goal</h2>
+        <p class="card-text">This site is a project that allows potential clients to use OpenVPN (an open source VPN) to achieve secure point-to-point and site-to-site connections. The benefit of using this site is that the process of getting a certificate request signed by a Certificate Authority is automated and the client's public and private keys to be used are incorporated with the downloaded ovpn file.</p>
+    </div>
 
-<p style="padding-left: 50px; padding-right: 50px; font-size: 130%;"><strong>Processes Automated:</strong></p>
-<ul style="font-size: 120%; padding-left: 80px;">
-    <li>Generating a Certificate Request with OpenSSL using shell scripts</li><br>
-    <li>Creating a Private key with OpenSSL using shell scripts</li><br>
-    <li>Having a Certificate Authority Sign your CSR and granting you a Certificate key</li><br>
-    <li>Creating your .ovpn file</li>
-</ul><br><br><br>
+    <div class="card">
+        <div class="card-image how-works"></div>
+        <h2 class="card-p">How it Works</h2>
+        <p class="card-text">We use AES-128 for encryption keys and a combination of TLS and SSL protocols. OpenVPN utilizes UDP to transmit data for clients. You will be able to see in your configuration file that OpenVPN uses tls-auth for HMAC signature verification to avoid vulnerabilities like scanning and DoS attacks.</p>
+    </div>
 
-<p style="padding-left: 50px; padding-right: 50px; font-size: 130%;"><b>How to Get Started:</b></p>
+    <div class="card">
+        <div class="card-image protect"></div>
+        <h2 class="card-p">Getting Started</h2>
+        <p class="card-text">All you need to do to access your VPN is <a href="/register">register</a> an account, <a href="/login">login</a>, click the generate keys button and then download your .ovpn file. After your file is downloaded, we have a How To Use page for an easy to follow configuration guide for your .ovpn file.</p>
+    </div>
+</section>
 
-<p style="padding-left: 50px; padding-right: 50px; font-size: 130%;">All you need to do to access your VPN is register an account, login, click the generate keys button and then download your .ovpn file. After your file is downloaded, we have a How To Use page for an easy to follow configuration guide for your .ovpn file.</p>
 {% endblock %}

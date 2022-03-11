@@ -10,7 +10,9 @@
     }
 
     body {
-      background-color: lightgray;
+      background-image: url("/static/pics/cyberspace.jpeg");
+      background-size: cover;
+      height: 0;
     }
 
     .container {
@@ -29,6 +31,24 @@
 
     .nav-item {
       font-size: 120% !important;
+    }
+
+    .account-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .account-card {
+      background: white;
+      width: 660px;
+      height: 1000px;
+      margin: 20px;
+      border-radius: 15px;
+    }
+
+    .account-card-title {
+      padding: 15px 0 15px 15px;
+      border-radius: 15px 15px 0 0;
     }
 
     .para-register {
@@ -58,8 +78,8 @@
     }
 
     footer {
-    padding-top: 100px;
-    text-align: center;
+      padding-top: 100px;
+      text-align: center;
     }
   </style>
 </head>
@@ -74,9 +94,6 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
-        </li>
         {% if current_user.is_authenticated %}
         <li class="nav-item active">
           <a class="nav-link" id="account" href="/account">Account</a>
@@ -105,68 +122,61 @@
     </div>
   </nav>
 
-  <div
-    style="width: 90%; margin: auto; margin-top: 0; background-color: white; border: 3px solid; border-bottom: 3px solid-black; border-left: 3px solid-black; border-top: 0px; border-right: 0px; border-collapse: collapse; padding-left: 30px; padding-bottom: 80px; margin-bottom: 20px;">
-    <div style="padding-top: 30px;">
+  <div style="padding-top: 30px;">
+    <div style="text-align: center; padding: 0 30px 0 30px;">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
 
-      <div style="padding-top: 30px;">
-        <div style="text-align: center; padding-right: 30px;">
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          {% for message in messages %}
-          <div class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-          {% endfor %}
-          {% endif %}
-          {% endwith %}
-        </div>
-
-        <h2 class="text-light bg-dark rounded"
-          style=" margin-bottom: 0px; border: 1px solid; border-bottom: solid-black; padding-right: 50px; padding-left: 40px; padding-top: 20px; padding-bottom: 20px; margin: auto; width: 55%;">
-          Account Settings</h2>
-
-        <div class="rounded-bottom"
-          style="margin-top: 0px; padding-right: 50px; padding-left: 20px; padding-top: 30px; padding-bottom: 30px; border: 1px solid; border-top: 0px; margin: auto; width: 54.8%;">
-          <form action="" method="POST">
-            {{ form.csrf_token }}
-            <div class="form-group para-register">
-              <h3><i>Username:</i></h3><br>
-              <label>{{ current_user.username }}</label><br>
-
-              <br>
-              <hr class="dotted"><br>
-
-              <h3><i>Change account password:</i></h3><br>
-              <label for="exampleInputEmail1">{{ form.old_password.label }}</label><br>
-              {{ form.old_password(style='width: 75%;') }}
-            </div>
-            <div class="form-group para-register">
-              <label for="exampleInputPassword1">{{ form.new_password.label }}</label><br>
-              {{ form.new_password(style='width: 75%;') }}
-            </div>
-            <div class="form-group para-register">
-              <label for="exampleInputPassword1">{{ form.confirm_password.label }}</label><br>
-              {{ form.confirm_password(style='width: 75%;') }}
-            </div>
-            <p class="center">{{ form.submit() }}</p>
-          </form>
+  <section class="account-container">
+    <div class="account-card">
+      <div>
+        <h2 class="text-light bg-dark account-card-title">Account Settings</h2>
+      </div>
+      <form action="" method="POST">
+        {{ form.csrf_token }}
+        <div class="form-group para-register">
+          <h3><i>Username:</i></h3><br>
+          <label>{{ current_user.username }}</label><br>
 
           <br>
           <hr class="dotted"><br>
 
-          <h3 style="text-align: center;"><i>Remove account and site access:</i></h3><br>
-          <button id="delete-account-btn" type="button" class="btn btn-danger center">Delete Account</button>
+          <h3><i>Change account password:</i></h3><br>
+          <label for="exampleInputEmail1">{{ form.old_password.label }}</label><br>
+          {{ form.old_password(style='width: 75%;') }}
         </div>
-      </div>
+        <div class="form-group para-register">
+          <label for="exampleInputPassword1">{{ form.new_password.label }}</label><br>
+          {{ form.new_password(style='width: 75%;') }}
+        </div>
+        <div class="form-group para-register">
+          <label for="exampleInputPassword1">{{ form.confirm_password.label }}</label><br>
+          {{ form.confirm_password(style='width: 75%;') }}
+        </div>
+        <p class="center">{{ form.submit() }}</p>
+      </form>
+      <br>
+      <hr class="dotted"><br>
+
+      <h3 style="text-align: center;"><i>Remove account and site access:</i></h3><br>
+      <button id="delete-account-btn" type="button" class="btn btn-danger center">Delete Account</button>
     </div>
-    <footer>
-      <img src="/static/pics/key2.png" style="height: 7%;"><br>
-      <i>
-        Copyright &copy; OpenVPN Client Config Automated<br>
-        <a href="#">FerrisValiton@gmail.com</a>
-      </i><br>
-    </footer>
+  </section>
+
+  <footer style="color: white;" <img src="/static/pics/key2.png" style="height: 7%;"><br>
+    <i>
+      Copyright &copy; OpenVPN Client Config Automated<br>
+      <a href="#">FerrisVPN@gmail.com</a>
+    </i><br>
+  </footer>
   </div>
 
   <div id="gen-keys-modal" class="modal" tabindex="-1" role="dialog">
