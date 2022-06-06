@@ -170,6 +170,14 @@ def downloadFile():
 def setup():
     return render_template('setup.html')
 
+#Easy client software install
+@app.route('/installDownload', methods = ['POST', 'GET'])
+def installDownload():
+    path = "/var/www/FlaskApps/install.sh"
+    if request.method == "GET":
+        return send_file(path, as_attachment=True)
+    return redirect(url_for('setup'))
+
 #User account settings
 @app.route('/account', methods = ['POST', 'GET'])
 @login_required
