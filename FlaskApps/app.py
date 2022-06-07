@@ -126,7 +126,7 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
-                flash("Hello, " + current_user.username)
+                flash("Hello, " + current_user.username + "!")
                 return redirect(url_for('index'))
             else:
                 flash('Password is invalid.')
@@ -150,7 +150,6 @@ def createVPN():
     clientCertGen()
     vpnFileGen()
     flash(current_user.username + "'s Public key and Private key have been generated. OpenVPN file is ready to download.")
-    #messages = "Hello world"
     return redirect(url_for('index'))
 
 #Let clients download .ovpn file

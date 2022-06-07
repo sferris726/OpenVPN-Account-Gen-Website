@@ -3,12 +3,13 @@
 <br><br>
 <ul class="setup-list">
     <h1 style="font-weight: 300;">How to configure your .ovpn file:</h1><br>
-    <h2 style="font-weight:300;">Easy install:</h2>
-    <br><li>Download script to automatically install necessary software(OpenVPN, openvpn-systemd-resolved) here:</li><br>
+    <h2 style="font-weight:300;">Easy setup:</h2>
+    <br><li>Download a shell script to automatically install the necessary software(OpenVPN, openvpn-systemd-resolved) here:</li><br>
     <button type="button" onclick="window.location.href='{{ url_for( 'installDownload' ) }}';"
                 class="btn btn-primary" id="gen-keys-confirm">Install Software</button><br>
-    <br><li>Save file, open terminal in Download directory and use commands <code>sudo chmod +x install.sh</code> and <code>sudo ./install.sh</code></li>
-    <br><li>Skip Manual setup and proceed to <b>establishing a connection</b> below</li>
+    <br><li>Save the file, open a terminal in the Download directory and use commands <code>sudo chmod +x install.sh</code> and <code>sudo ./install.sh</code></li><br>
+    <img src="/static/pics/Setup/installDownload.PNG"><br>
+    <br><li>Skip Manual setup and proceed to <b>Establishing a Connection</b> below</li>
 
     <br><hr class="dotted">
 
@@ -32,7 +33,7 @@
     <br><hr class="dotted">
 
     <br><h1 style="padding-left: 30px; font-weight: 300;">Establishing a Connection:</h1>
-    <br><li>You should now be ready to connect to the VPN service by entering the below command:</li><br>
+    <br><li>You should now be ready to connect to the VPN service by entering the below command in the file's directory:</li><br>
     <img src="/static/pics/Setup/connect.PNG"><br>
     <br><li>If you see <code>Initialization Sequence Completed</code>, congratulations, you are connected!</li><br>
     <img src="/static/pics/Setup/initialization.PNG"><br>
